@@ -2,8 +2,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Tahoma', sans-serif;
-    /*background: url('icons/background.webp') no-repeat center center fixed;
-    background-size: cover;*/
+    background: url('xp-background.webp') no-repeat center center fixed;
+    background-size: cover;
 }
 
 #desktop {
@@ -21,20 +21,36 @@ body {
     display: flex;
     align-items: center;
     color: white;
-    font-size: 14px;
+    font-size: 20px;
+}
+
+.tab {
+    background-color: #1E90FF;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.tab.active {
+    background-color: #007ACC; /* Active tab color */
 }
 
 #start-button {
     width: 100px;
-    padding: 5px;
-    background: url('start-button.png') no-repeat center center;
-    background-size: contain;
+    height: 32px;
+    padding-top: 8px;
+    background: #13c913; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
     cursor: pointer;
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Center text */
 }
 
-#taskbar-items {
-    flex: 1;
-}
+
+
 
 #system-tray {
     width: 200px;
@@ -65,3 +81,91 @@ body {
     display: block;
     margin: 0 auto;
 }
+
+.window {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    background: white;
+    border: 2px solid #ccc;
+    
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.window.me-window {
+    background: url(me.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+.window-header {
+    background: #007ACC;
+    color: white;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.me-window-content {
+    flex: 1;
+    padding: 10px;
+    color: white;
+}
+
+.window-content {
+    flex: 1;
+    padding: 10px;
+}
+
+.window-header button {
+
+    border: none;
+    cursor: pointer;
+    padding: 2px 5px;
+}
+
+.close-button {
+    background: red;
+    color: white;
+}
+
+.maximize-button::after {
+
+    padding-left: 5px;
+}
+
+.minimize-button::after {
+    
+    padding-left: 5px;
+}
+
+/* Start Menu Styling */
+#start-menu {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+}
+
+.start-menu-item {
+    padding: 10px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.start-menu-item:hover {
+    background: #eeeeee;
+}
+
+
+
