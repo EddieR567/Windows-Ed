@@ -7,6 +7,7 @@ body {
     background-size:100%;
     background-size: cover;
     background-position: right 40%;
+    user-select: none;
 
 }
 
@@ -117,7 +118,7 @@ body {
 }
 
 .window.about-me-window {
-    background: url(me.jpg) no-repeat center center fixed;
+    background: url(images/me.jpg) no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -266,3 +267,65 @@ width:87%;
 #contact-form button:hover {
     background: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
 }
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+.world {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .score {
+    position: absolute;
+    font-size: 3vmin;
+    right: 1vmin;
+    top: 1vmin;
+  }
+  
+  .start-screen {
+    position: absolute;
+    font-size: 5vmin;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .hide {
+    display: none;
+  }
+  
+  .ground {
+    --left: 0;
+    position: absolute;
+    width: 300%;
+    bottom: 0;
+    left: calc(var(--left) * 1%)
+  }
+  
+  .dino {
+    --bottom: 0;
+    position: absolute;
+    left: 1%;
+    height: 30%;
+    bottom: calc(var(--bottom) * 1%);
+  }
+  
+  .cactus {
+    position: absolute;
+    left: calc(var(--left) * 1%);
+    height: 30%;
+    bottom: 0;
+  }
