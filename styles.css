@@ -5,6 +5,7 @@ body {
     /*background: url('xp-background.webp') no-repeat center center fixed;*/
     background: url('images/307582850021.jpeg') no-repeat center center fixed;
     background-size:100%;
+    background-size: cover;
     background-position: right 40%;
 
 }

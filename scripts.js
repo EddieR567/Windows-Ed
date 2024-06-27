@@ -110,13 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
     handleWindow('about-me-icon', 'about-me-window');
     handleWindow('portfolio-icon', 'portfolio-window');
     handleWindow('resume-icon', 'resume-window');
-    handleWindow('contact-icon', 'contact-window');
-    handleWindow('blog-icon', 'blog-window');
     handleWindow('start-about-me', 'about-me-window');
     handleWindow('start-portfolio', 'portfolio-window');
     handleWindow('start-resume', 'resume-window');
-    handleWindow('start-contact', 'contact-window');
-    handleWindow('start-blog', 'blog-window');
 
     // Clock functionality
     function updateClock() {
@@ -153,23 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleTab(name) {
         const existingTab = taskbarItems.querySelector(`.tab[data-tab="${name}"]`);
-        if (existingTab) {
-            existingTab.classList.toggle('active');
-        } else {
-            const tab = document.createElement('div');
-            tab.classList.add('tab', 'active');
-            tab.setAttribute('data-tab', name);
-            tab.textContent = name;
-            taskbarItems.appendChild(tab);
+        if (name != 'Email') {
+            if (existingTab) {
+                existingTab.classList.toggle('active');
+            } else {
+                const tab = document.createElement('div');
+                tab.classList.add('tab', 'active');
+                tab.setAttribute('data-tab', name);
+                tab.textContent = name;
+                taskbarItems.appendChild(tab);
 
-            tab.addEventListener('click', function() {
-                const windowId = name.toLowerCase().replace(' ', '-') + '-window';
-                const windowElement = document.getElementById(windowId);
-                if (windowElement) {
-                    toggleWindow(windowElement);
-                }
-            });
-        }
+                tab.addEventListener('click', function() {
+                    const windowId = name.toLowerCase().replace(' ', '-') + '-window';
+                    const windowElement = document.getElementById(windowId);
+                    if (windowElement) {
+                        toggleWindow(windowElement);
+                    }
+                });
+            }}
     }
 
     function toggleWindow(windowElement) {
@@ -187,43 +184,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     startButton.addEventListener('click', function() {
         startMenu.classList.toggle('show');
     });
 
 
-    const contactForm = document.getElementById('contact-form');
+    const emailIcon = document.getElementById('email-icon');
 
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
+    emailIcon.addEventListener('click', function() {
+        const email = 'eddieranyard@gmail.com';
+        const subject = ''; 
+        const body = ''; 
 
-        // Capture form data
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+        
+        const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-        // Validate form data
-        if (!name || !email || !message) {
-            alert('Please fill in all fields.');
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        alert('Message sent successfully!');
-
-   
-        contactForm.reset();
+        
+        window.open(mailtoUrl);
     });
-
-   
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
-    }
-
 
 });
