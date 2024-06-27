@@ -17,7 +17,7 @@
         </div>
         <div id="icons">
             <!-- About Me Icon -->
-            <div class="icon" id="me-icon">
+            <div class="icon" id="about-me-icon">
                 <img src="icons/folder.png" alt="Folder">
                 <span>About Me</span>
             </div>
@@ -42,10 +42,10 @@
                 <span>Blog</span>
             </div>
         </div>
-        
+
         <!-- Start Menu -->
         <div id="start-menu">
-            <button class="start-menu-item" id="start-me">About Me</button>
+            <button class="start-menu-item" id="start-about-me">About Me</button>
             <button class="start-menu-item" id="start-portfolio">Portfolio</button>
             <button class="start-menu-item" id="start-resume">Resume</button>
             <button class="start-menu-item" id="start-contact">Contact</button>
@@ -54,16 +54,16 @@
     </div>
 
     <!-- About Me Window -->
-    <div class="window me-window" id="me-window">
+    <div class="window about-me-window" id="about-me-window">
         <div class="window-header">
             <span>About Me</span>
+            <div class="window-control"></div>
             <button class="minimize-button">_</button>
             <button class="maximize-button">□</button>
             <button class="close-button">X</button>
         </div>
-        <div class="me-window-content">
+        <div class="about-me-window-content">
             <h2>About Me</h2>
-            <!---<img src="me.jpg" alt="Your Photo" class="profile-photo">-->
             <p>Hi, I'm Eddie. </p>
         </div>
     </div>
@@ -72,6 +72,7 @@
     <div class="window" id="portfolio-window">
         <div class="window-header">
             <span>Portfolio</span>
+            <div class="window-control"></div>
             <button class="minimize-button">_</button>
             <button class="maximize-button">□</button>
             <button class="close-button">X</button>
@@ -87,23 +88,24 @@
     <div class="window" id="resume-window">
         <div class="window-header">
             <span>Resume</span>
+            <div class="window-control"></div>
             <button class="minimize-button">_</button>
             <button class="maximize-button">□</button>
             <button class="close-button">X</button>
         </div>
         <div class="window-content">
-            <h2>Resume</h2>
-            <p>Work Experience:</p>
-            <!-- Add experience details here -->
-            <p>Education:</p>
-            <!-- Add education details here -->
+            <div class="pdf-container">
+                <embed src="images/Edward Ranyard.pdf" width="100%" height="100%" type="application/pdf">
+            </div>
         </div>
     </div>
 
     <!-- Contact Window -->
+<!-- Contact Window -->
     <div class="window" id="contact-window">
         <div class="window-header">
             <span>Contact</span>
+            <div class="window-control"></div>
             <button class="minimize-button">_</button>
             <button class="maximize-button">□</button>
             <button class="close-button">X</button>
@@ -126,6 +128,7 @@
     <div class="window" id="blog-window">
         <div class="window-header">
             <span>Blog</span>
+            <div class="window-control"></div>
             <button class="minimize-button">_</button>
             <button class="maximize-button">□</button>
             <button class="close-button">X</button>

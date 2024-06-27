@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let maximized = false; // Track the maximized state
+
     // Helper function to make elements draggable
     function makeDraggable(element, header) {
         let isDragging = false;
@@ -39,20 +41,37 @@ document.addEventListener('DOMContentLoaded', () => {
             windowElement.style.display = 'flex';
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
-        
+
             // Calculate dimensions
             const windowWidth = screenWidth * 0.8; // 80% of the screen width
             const windowHeight = screenHeight * 0.8; // 80% of the screen height
-        
+
             // Set styles
             windowElement.style.width = `${windowWidth}px`;
             windowElement.style.height = `${windowHeight}px`;
             windowElement.style.top = `${(screenHeight - windowHeight) / 2}px`; // Center vertically
             windowElement.style.left = `${(screenWidth - windowWidth) / 2}px`; // Center horizontally
+
+            // Reset maximized state on window open
+            if (maximized) {
+                maximizeButton.click(); // Simulate click to restore size
+            }
+
+            const tabName = icon.querySelector('span').textContent.trim();
+            toggleTab(tabName);
         });
 
         closeButton.addEventListener('click', () => {
-            windowElement.style.display = 'none';
+            windowElement.style.display = 'none'; // Hide the window
+
+            // Get the tab name associated with the current window
+            const tabName = windowElement.querySelector('span').textContent.trim();
+
+            // Find the corresponding tab in the taskbar
+            const existingTab = taskbarItems.querySelector(`.tab[data-tab="${tabName}"]`);
+            if (existingTab) {
+                existingTab.remove(); // Remove the tab from the taskbar
+            }
         });
 
         minimizeButton.addEventListener('click', () => {
@@ -60,10 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         maximizeButton.addEventListener('click', () => {
-            windowElement.style.width = '100%';
-            windowElement.style.height = '100%';
-            windowElement.style.top = '0';
-            windowElement.style.left = '0';
+            if (maximized) {
+                // If window is already maximized, restore to original size
+                windowElement.style.width = ''; // Reset to CSS defined width
+                windowElement.style.height = ''; // Reset to CSS defined height
+                windowElement.style.top = ''; // Reset to CSS defined top position
+                windowElement.style.left = ''; // Reset to CSS defined left position
+                maximized = false;
+            } else {
+                // Maximize to 100% size
+                windowElement.style.width = '100%';
+                windowElement.style.height = '100%';
+                windowElement.style.top = '0';
+                windowElement.style.left = '0';
+                maximized = true;
+            }
         });
 
         makeDraggable(windowElement, header);
@@ -77,13 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Setup windows
-   
-    handleWindow('me-icon', 'me-window');
+    handleWindow('about-me-icon', 'about-me-window');
     handleWindow('portfolio-icon', 'portfolio-window');
     handleWindow('resume-icon', 'resume-window');
     handleWindow('contact-icon', 'contact-window');
     handleWindow('blog-icon', 'blog-window');
-    handleWindow('start-me', 'me-window');
+    handleWindow('start-about-me', 'about-me-window');
     handleWindow('start-portfolio', 'portfolio-window');
     handleWindow('start-resume', 'resume-window');
     handleWindow('start-contact', 'contact-window');
@@ -108,37 +137,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const startMenuItems = document.querySelectorAll('.start-menu-item');
+
+    startMenuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const tabName = this.textContent.trim();
+            const windowId = `${tabName.toLowerCase().replace(' ', '-')}-window`;
+            const windowElement = document.getElementById(windowId);
+            if (windowElement) {
+                windowElement.style.display = 'flex';
+                toggleTab(tabName);
+            }
+        });
+    });
+
     function toggleTab(name) {
-       
         const existingTab = taskbarItems.querySelector(`.tab[data-tab="${name}"]`);
         if (existingTab) {
-           
             existingTab.classList.toggle('active');
         } else {
-           
             const tab = document.createElement('div');
             tab.classList.add('tab', 'active');
             tab.setAttribute('data-tab', name);
             tab.textContent = name;
-            taskbarItems.appendChild(tab)
-        
+            taskbarItems.appendChild(tab);
+
             tab.addEventListener('click', function() {
-                const windowId = name.toLowerCase() + '-window';
+                const windowId = name.toLowerCase().replace(' ', '-') + '-window';
                 const windowElement = document.getElementById(windowId);
                 if (windowElement) {
                     toggleWindow(windowElement);
-            }
-        });}
+                }
+            });
+        }
     }
 
     function toggleWindow(windowElement) {
- 
-        if (windowElement.style.display == 'flex'){
-         windowElement.style.display = 'none';}
-        else{
+        if (windowElement.style.display === 'flex') {
+            windowElement.style.display = 'none';
+        } else {
             windowElement.style.display = 'flex';
         }
-
 
         const allWindows = document.querySelectorAll('.window');
         allWindows.forEach(win => {
@@ -148,11 +187,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-  
     startButton.addEventListener('click', function() {
         startMenu.classList.toggle('show');
     });
+
+
+    const contactForm = document.getElementById('contact-form');
+
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Capture form data
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        // Validate form data
+        if (!name || !email || !message) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        alert('Message sent successfully!');
+
+   
+        contactForm.reset();
+    });
+
+   
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
 
 
 });

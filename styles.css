@@ -2,8 +2,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Tahoma', sans-serif;
-    background: url('xp-background.webp') no-repeat center center fixed;
-    background-size: cover;
+    /*background: url('xp-background.webp') no-repeat center center fixed;*/
+    background: url('images/307582850021.jpeg') no-repeat center center fixed;
+    background-size:100%;
+    background-position: right 40%;
+
 }
 
 #desktop {
@@ -17,31 +20,41 @@ body {
     bottom: 0;
     width: 100%;
     height: 40px;
-    background: #007ACC;
+    background: rgb(34,85,104);
     display: flex;
     align-items: center;
     color: white;
     font-size: 20px;
 }
 
+#taskbar-items {
+    width: 85%; /* Adjust as needed */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
 .tab {
-    background-color: #1E90FF;
+    background-color:rgb(58, 115, 135);
     color: white;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
     border-radius: 5px;
+    display: inline-block; /* Display tabs side by side */
+}
+
+.tab :hover {
+    background-color: #567890; /* Hover color */
 }
 
 .tab.active {
-    background-color: #007ACC; /* Active tab color */
+    background-color: #567890; /* Active tab color */
 }
 
 #start-button {
-    width: 100px;
+    width: 153px;
     height: 32px;
     padding-top: 8px;
-    background: #13c913; /* Green background color */
+    background: #344904; /* Green background color */
     color: white; /* White text color */
     border: none; /* Remove border */
     cursor: pointer;
@@ -53,7 +66,7 @@ body {
 
 
 #system-tray {
-    width: 200px;
+    /*width: 90%;*/
     display: flex;
     justify-content: flex-end;
     padding-right: 10px;
@@ -82,34 +95,68 @@ body {
     margin: 0 auto;
 }
 
+
+
 .window {
+    display: none;
     position: absolute;
     width: 400px;
     height: 300px;
     background: white;
     border: 2px solid #ccc;
-    
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.window.me-window {
+.window.maximized {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.window.about-me-window {
     background: url(me.jpg) no-repeat center center fixed;
     background-size: cover;
 }
 
+.window.contact-window {
+    height:100%;
 
+}
 .window-header {
-    background: #007ACC;
-    color: white;
+    display: flex;
+    align-items: center;
+    background-color: #c6c6c6;
+    color: #000000;
     padding: 5px;
     cursor: move;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 5px;
 }
 
-.me-window-content {
+.window-span {
+    flex-grow: 1;
+    padding: 0 50px;
+}
+
+.window-header .window-control{
+width:87%;
+}
+
+
+.window-buttons button {
+    background-color: #567890;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.window-buttons button:hover {
+    background-color: #567890;
+}
+
+.about-me-window-content {
     flex: 1;
     padding: 10px;
     color: white;
@@ -147,25 +194,74 @@ body {
     position: absolute;
     bottom: 40px;
     left: 0;
-    width: 200px;
-    background: #ffffff;
-    border: 1px solid #cccccc;
+    width: 150px;
+    border:none;
+    background: #B6B1A0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: none;
     flex-direction: column;
 }
 
 .start-menu-item {
-    padding: 10px;
+    padding: 15px;
     background: none;
     border: none;
     text-align: left;
     cursor: pointer;
+    font-size: large;
 }
 
 .start-menu-item:hover {
     background: #eeeeee;
 }
 
+.pdf-container {
+    width: 100%;
+    height: 100% }
 
 
+
+/* Contact Form Styling */
+#contact-form {
+    height:auto;
+}
+
+#contact-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+#contact-form input[type="text"],
+#contact-form input[type="email"],
+#contact-form textarea {
+    width: 95%;
+    padding: 5px;
+    border: 1px solid #a9a9a9;
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+    font-size: 14px;
+    background-color: #fff;
+    color: #000;
+}
+
+#contact-form textarea {
+    height: 300px;
+    resize:none;
+
+}
+
+#contact-form button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #007ACC;
+    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #ccc;
+}
+
+#contact-form button:hover {
+    background: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
+}
