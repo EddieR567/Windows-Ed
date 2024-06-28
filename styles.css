@@ -34,6 +34,42 @@ body {
     overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
 
+/* Media query for tablets and larger phones */
+@media (min-width: 600px) {
+    #taskbar {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Additional styles for larger screens */
+    .icon {
+        width: 120px; /* Increase icon size for tablets */
+    }
+
+    .icon img {
+        width: 60px; /* Increase icon image size */
+        height: 60px;
+    }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 599px) {
+    #taskbar {
+        font-size: 14px; /* Decrease font size for smaller screens */
+    }
+
+    .icon {
+        width: 80px; /* Adjust icon size for smaller screens */
+        margin: 5px; /* Reduce margin */
+    }
+
+    .icon img {
+        width: 40px; /* Adjust icon image size */
+        height: 40px;
+    }
+}
+
 .tab {
     background-color:rgb(58, 115, 135);
     color: white;
