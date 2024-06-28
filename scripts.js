@@ -154,10 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Setup windows
     handleWindow('about-me-icon', 'about-me-window');
-    handleWindow('portfolio-icon', 'portfolio-window');
+    //handleWindow('portfolio-icon', 'portfolio-window');
     handleWindow('resume-icon', 'resume-window');
     handleWindow('start-about-me', 'about-me-window');
-    handleWindow('start-portfolio', 'portfolio-window');
+    //handleWindow('start-portfolio', 'portfolio-window');
     handleWindow('start-resume', 'resume-window');
 
     // Clock functionality
@@ -256,14 +256,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
 
     const birdImages = [
-        'dino_game/imgs/birdnobg-run-1.png',
-        'dino_game/imgs/birdnobg-run-2.png',
-        'dino_game/imgs/birdnobg-run-0.png'
+        '/images/birdnobg-run-1.png',
+        '/images/birdnobg-run-2.png',
+        '/images/birdnobg-run-0.png'
     ];
     const bgImg = new Image();
     const coinImg = new Image();
 
-    coinImg.src = 'dino_game/imgs/enemy1.png'; // Ensure the path is correct
+    coinImg.src = '/images/enemy1.png'; // Ensure the path is correct
 
     let birdFrames = [];
     let bird = {
@@ -420,6 +420,19 @@ document.addEventListener('DOMContentLoaded', () => {
             worldSection.style.display = 'none';
             worldVisible = false;
         }, 2000);
+    }
+
+
+    function redirectToInsta() {
+        window.location.href = "https://www.google.com";
+    }
+
+    function redirectToGithub() {
+        window.location.href = "https://www.example.com";
+    }
+
+    function redirectToLinkedin() {
+        window.location.href = "https://www.example.com";
     }
 
 

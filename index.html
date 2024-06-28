@@ -26,11 +26,11 @@
                 <img src="icons/folder.png" alt="Folder">
                 <span>About Me</span>
             </div>
-            <!-- Portfolio Icon -->
+            <!-- Portfolio Icon 
             <div class="icon" id="portfolio-icon">
                 <img src="icons/folder.png" alt="Folder">
                 <span>Portfolio</span>
-            </div>
+            </div>-->
             <!-- Resume Icon -->
             <div class="icon" id="resume-icon">
                 <img src="icons/cv.png" alt="Folder">
@@ -40,12 +40,30 @@
                 <img src="icons/email.png" alt="Email Icon">
                 <span>Email</span>
             </div>
+            <div class="icon" onclick="redirectToUrl('https://www.instagram.com/eddie.d.r/')">
+                <img src="icons/camera.png" alt="camera Icon">
+                <span>Instagram</span>
+            </div>
+            <div class="icon" onclick="redirectToUrl('https://github.com/EddieR567')">
+                <img src="icons/computer.png" alt="github Icon">
+                <span>Github</span>
+            </div>
+            <div class="icon" onclick="redirectToUrl('https://www.linkedin.com/in/edwardranyard/')">
+                <img src="icons/link.png" alt="link Icon">
+                <span>LinkedIn</span>
+            </div>
+            
+            <script>
+                function redirectToUrl(url) {
+                    window.location.href = url;
+                }
+            </script>
         </div>
 
         <!-- Start Menu -->
         <div id="start-menu">
             <button class="start-menu-item" id="start-about-me">About Me</button>
-            <button class="start-menu-item" id="start-portfolio">Portfolio</button>
+            <!--<button class="start-menu-item" id="start-portfolio">Portfolio</button>-->
             <button class="start-menu-item" id="start-resume">Resume</button>
             
         </div>
