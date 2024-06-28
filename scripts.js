@@ -1,6 +1,3 @@
-import { updateGround, setupGround } from "./dino_game/ground.js"
-import { updateDino, setupDino, getDinoRect, setDinoLose } from "./dino_game/dino.js"
-import { updateCactus, setupCactus, getCactusRects } from "./dino_game/cactus.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     let maximized = false; // Track the maximized state
@@ -10,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const worldSection = document.getElementById("world");
     const startMenu = document.getElementById('start-menu');
     const taskbarItems = document.getElementById('taskbar-items');
+    const targetScore = 10;
 
     // Initially hide the world section
     worldSection.style.display = "none";
@@ -19,15 +17,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!worldVisible) {
             // Show the world section
             worldSection.style.display = "block";
+            resizeCanvas();
             worldVisible = true;
             // Toggle Start menu visibility
             startMenu.classList.toggle('show');
+
+            // Start the game if it hasn't already started
+            if (!gameStarted) {
+                resetGame();
+                gameStarted = true;
+                gameLoop();
+            }
         } else {
             // Hide the world section
             worldSection.style.display = "none";
             worldVisible = false;
         }
     });
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight/2;
+    }
+
+
+
+
+
+
 
 
     // Helper function to make elements draggable
@@ -235,92 +252,176 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-const WORLD_WIDTH = 100
-const WORLD_HEIGHT = 30
-const SPEED_SCALE_INCREASE = 0.00001
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-const worldElem = document.querySelector("[data-world]")
-const scoreElem = document.querySelector("[data-score]")
-const startScreenElem = document.querySelector("[data-start-screen]")
+    const birdImages = [
+        'dino_game/imgs/birdnobg-run-1.png',
+        'dino_game/imgs/birdnobg-run-2.png',
+        'dino_game/imgs/birdnobg-run-0.png'
+    ];
+    const bgImg = new Image();
+    const coinImg = new Image();
 
-setPixelToWorldScale()
-window.addEventListener("resize", setPixelToWorldScale)
-document.addEventListener("keydown", handleStart, { once: true })
+    coinImg.src = 'dino_game/imgs/enemy1.png'; // Ensure the path is correct
 
-let lastTime
-let speedScale
-let score
-function update(time) {
-  if (lastTime == null) {
-    lastTime = time
-    window.requestAnimationFrame(update)
-    return
-  }
-  const delta = time - lastTime
+    let birdFrames = [];
+    let bird = {
+        x: 50,
+        y: 150,
+        width: 80,
+        height: 65,
+        gravity: 0.4, // Adjusted value
+        lift: -12, // Adjusted value
+        velocity: 0,
+        frameIndex: 0,
+        frameDelay: 7, // Number of game frames to wait before changing the bird frame
+        frameCounter: 0 // Counter to keep track of frames
+    };
 
-  updateGround(delta, speedScale)
-  updateDino(delta, speedScale)
-  updateCactus(delta, speedScale)
-  updateSpeedScale(delta)
-  updateScore(delta)
-  if (checkLose()) return handleLose()
+    let coins = [];
+    let coinSize = 20;
+    let frame = 0;
+    let score = 0;
+    let gameStarted = false;
 
-  lastTime = time
-  window.requestAnimationFrame(update)
-}
+    document.addEventListener('keydown', (event) => {
+        if (event.code === 'Space') {
 
-function checkLose() {
-  const dinoRect = getDinoRect()
-  return getCactusRects().some(rect => isCollision(rect, dinoRect))
-}
+                bird.velocity = bird.lift;
+            
+        }
+    });
 
-function isCollision(rect1, rect2) {
-  return (
-    rect1.left < rect2.right &&
-    rect1.top < rect2.bottom &&
-    rect1.right > rect2.left &&
-    rect1.bottom > rect2.top
-  )
-}
+    function drawBird() {
+        ctx.drawImage(birdFrames[bird.frameIndex], bird.x, bird.y, bird.width, bird.height);
+        bird.frameCounter++;
+        if (bird.frameCounter >= bird.frameDelay) {
+            bird.frameIndex = (bird.frameIndex + 1) % birdFrames.length;
+            bird.frameCounter = 0;
+        }
+    }
 
-function updateSpeedScale(delta) {
-  speedScale += delta * SPEED_SCALE_INCREASE
-}
+    function drawBackground() {
+        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+    }
 
-function updateScore(delta) {
-  score += delta * 0.01
-  scoreElem.textContent = Math.floor(score)
-}
+    function drawCoins() {
+        for (let i = 0; i < coins.length; i++) {
+            let coin = coins[i];
+            ctx.drawImage(coinImg, coin.x, coin.y, coinSize, coinSize);
 
-function handleStart() {
-  lastTime = null
-  speedScale = 1
-  score = 0
+            coin.x -= 4; // Move coins to the left
 
-  setupDino()
-  setupCactus()
-  startScreenElem.classList.add("hide")
-  window.requestAnimationFrame(update)
-}
+            // Remove coins that have gone off screen
+            if (coin.x + coinSize <= 0) {
+                coins.splice(i, 1);
+                i--;
+            }
 
-function handleLose() {
-  setDinoLose()
-  setTimeout(() => {
-    document.addEventListener("keydown", handleStart, { once: true })
-    startScreenElem.classList.remove("hide")
-  }, 100)
-}
+            // Collision detection with bird
+            if (
+                bird.x < coin.x + coinSize &&
+                bird.x + bird.width > coin.x &&
+                bird.y < coin.y + coinSize &&
+                bird.y + bird.height > coin.y
+            ) {
+                coins.splice(i, 1); // Remove collected coin
+                i--;
+                score++;
+            }
+        }
+    }
 
-function setPixelToWorldScale() {
-  let worldToPixelScale
-  if (window.innerWidth / window.innerHeight < WORLD_WIDTH / WORLD_HEIGHT) {
-    worldToPixelScale = window.innerWidth / WORLD_WIDTH
-  } else {
-    worldToPixelScale = window.innerHeight / WORLD_HEIGHT
-  }
+    function updateBird() {
+        bird.velocity += bird.gravity;
+        bird.y += bird.velocity;
 
-  worldElem.style.width = `${WORLD_WIDTH * worldToPixelScale}px`
-  worldElem.style.height = `${WORLD_HEIGHT * worldToPixelScale}px`
-}
+        if (bird.y + bird.height >= canvas.height) {
+            bird.y = canvas.height - bird.height;
+            bird.velocity = 0;
+        } else if (bird.y <= 0) {
+            bird.y = 0;
+            bird.velocity = 0;
+        }
+    }
 
+    function resetGame() {
+        bird.y = 150;
+        bird.velocity = 0;
+        coins = [];
+        score = 0;
+    }
+
+    function gameLoop() {
+        frame++;
+        if (score >= targetScore) {
+            endGame();
+            return; 
+        }
+
+        if (frame % 100 === 0) {
+            let coinY = Math.random() * (canvas.height - coinSize);
+            coins.push({ x: canvas.width, y: coinY });
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawBird();
+        drawCoins();
+        updateBird();
+
+        ctx.fillStyle = '#000';
+        ctx.font = '20px Arial';
+      
+        ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    function loadImages() {
+        return Promise.all([
+            new Promise((resolve, reject) => {
+                birdFrames = birdImages.map(src => {
+                    const img = new Image();
+                    img.src = src;
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    return img;
+                });
+            }),
+            new Promise((resolve, reject) => {
+                bgImg.onload = resolve;
+                bgImg.onerror = reject;
+            }),
+            new Promise((resolve, reject) => {
+                coinImg.onload = resolve;
+                coinImg.onerror = reject;
+            })
+        ]);
+    }
+
+    loadImages().then(() => {
+        console.log('All images loaded');
+        ctx.fillStyle = '#000';
+        ctx.font = '20px Arial';
+        ctx.fillText('Press Space to Start', canvas.width / 2 - 80, canvas.height / 2);
+    }).catch(err => {
+        console.error('Error loading images:', err);
+    });
+
+    function endGame() {
+        gameStarted = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#000';
+        ctx.font = '40px Arial';
+        ctx.fillText(`You Win! Score: ${score}`, canvas.width / 2 - 150, canvas.height / 2);
+
+        setTimeout(() => {
+            worldSection.style.display = 'none';
+            worldVisible = false;
+        }, 2000);
+    }
+
+
+    
 });

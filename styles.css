@@ -268,64 +268,22 @@ width:87%;
     background: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
 }
 
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-.world {
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .score {
+#world {
     position: absolute;
-    font-size: 3vmin;
-    right: 1vmin;
-    top: 1vmin;
-  }
-  
-  .start-screen {
-    position: absolute;
-    font-size: 5vmin;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .hide {
-    display: none;
-  }
-  
-  .ground {
-    --left: 0;
-    position: absolute;
-    width: 300%;
-    bottom: 0;
-    left: calc(var(--left) * 1%)
-  }
-  
-  .dino {
-    --bottom: 0;
-    position: absolute;
-    left: 1%;
-    height: 30%;
-    bottom: calc(var(--bottom) * 1%);
-  }
-  
-  .cactus {
-    position: absolute;
-    left: calc(var(--left) * 1%);
-    height: 30%;
-    bottom: 0;
-  }
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* Initially hidden */
+    z-index: 1; /* Adjust as needed */
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 50vh;
+    background-color: none; /* Ensure no background color */
+}
+
+
+
